@@ -1,0 +1,61 @@
+//这里就是基础系统的数据结构，初始化系统时必须添加。
+
+{
+  "XT0XITONG":{
+    "Bm0XiTongs":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm1BiaoMings",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"BianMa"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"MingCheng"
+      }]
+    }
+  },
+  "xt1yonghu":{
+    "Bm0XiTongs":{
+      
+    }
+  },
+  "xt2huodong":{
+    "Bm0XiTongs":{
+      
+    }
+  },
+  "xt3yanlun":{
+    "Bm0XiTongs":{
+      
+    }
+  },
+  "xt4toupiao":{
+    "Bm0XiTongs":{
+      
+    }
+  },
+  "xt5choujiang":{
+    "Bm0XiTongs":{
+      
+    }
+  },
+  "xt6wenjuan":{
+    "Bm0XiTongs":{
+      
+    }
+  },
+  "xt7shangcheng":{
+    "Bm0XiTongs":{
+      
+    }
+  }
+}
+
