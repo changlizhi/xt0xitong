@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"log"
 	"strings"
-	"xt0xitong/ml2changliangs"
 	"xt0xitong/ml0gongjus"
+	"xt0xitong/ml2changliangs"
 )
 
 func XinZeng(canShu map[string]interface{}) map[string]interface{} {
@@ -17,18 +17,18 @@ func XinZeng(canShu map[string]interface{}) map[string]interface{} {
 	keys := []string{}
 	wenHaos := []string{}
 	values := []interface{}{}
-  //默认ZhuJian全都通过snowflakerid得到，但是业务表中主键是从主键表来的。
-  if caoZuoZhis[ml2changliangs.ZhuJian]==nil{
-    keys = append(keys, ml2changliangs.ZhuJian)
-    values = append(values, ml0gongjus.HuoQuId())
-    wenHaos = append(wenHaos, ml2changliangs.FhWenHao)
-  }
+	//默认ZhuJian全都通过snowflakerid得到，但是业务表中主键是从主键表来的。
+	if caoZuoZhis[ml2changliangs.ZhuJian] == nil {
+		keys = append(keys, ml2changliangs.ZhuJian)
+		values = append(values, ml0gongjus.HuoQuId())
+		wenHaos = append(wenHaos, ml2changliangs.FhWenHao)
+	}
 	for k, v := range caoZuoZhis {
 		keys = append(keys, k)
 		values = append(values, v)
 		wenHaos = append(wenHaos, ml2changliangs.FhWenHao)
 	}
-  
+
 	builder := strings.Builder{}
 	builder.WriteString(" INSERT INTO ")
 

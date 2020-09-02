@@ -4,11 +4,15 @@ package ml2changliangs
 const (
 	TEST       = "TEST"
 	MYSQL      = "MYSQL"
-	XT0JICHU   = "XT0JICHU"
+	XT0XITONG   = "XT0XITONG"
 	XT1YONGHU  = "XT1YONGHU"
 	XT2HUODONG = "XT2HUODONG"
 	XT3YANLUN  = "XT3YANLUN"
-	SuoYin     = "SuoYin"
+  XT4TOUPIAO="XT4TOUPIAO"
+  XT5CHOUJIANG="XT5CHOUJIANG"
+  XT6WENJUAN="XT6WENJUAN"
+  XT7SHANGCHENG="XT7SHANGCHENG"
+  XT8BIANLUN="XT8BIANLUN"
 )
 
 //参数
@@ -32,6 +36,7 @@ const (
 	Bm10Cis           = "Bm10Cis"
 	Bm11BianMas       = "Bm11BianMas"
 	Bm12CiBianMas     = "Bm12CiBianMas"
+	Bm13FeiZiDuans    = "Bm13FeiZiDuans"
 )
 
 //sql常用
@@ -48,6 +53,7 @@ GoDaiMa="GoDaiMa"
 XiTongBianMa="XiTongBianMa"
 BiaoBianMa="BiaoBianMa"
 YeWuBianMa="YeWuBianMa"
+SuoYin     = "SuoYin"
 	Zhi              = "Zhi"
 	XuJianKu         = "XuJianKu"
 	LianJie          = "LianJie"

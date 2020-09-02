@@ -1,8 +1,6 @@
 {
   "XT0XITONG":{
     "Bm0XiTongs":{
-      "CaoZuoKu":   "XT0XITONG",
-      "CaoZuoBiao": "Bm0XiTongs",
       "SuoYin":     "BianMa",
       "ZhuJian":    "ZhuJian",
       "ZhuShi":"系统表，记录所有系统",
@@ -29,8 +27,6 @@
       }]
     },
     "Bm1Biaos":{
-      "CaoZuoKu":   "XT0XITONG",
-      "CaoZuoBiao": "Bm1Biaos",
       "SuoYin":     "BianMa",
       "ZhuJian":    "ZhuJian",
       "ZhuShi":"表名表，记录所有的表",
