@@ -1,5 +1,3 @@
-//这里就是基础系统的数据结构，初始化系统时必须添加。
-//字段里不需要挂上系统和表，因为除非把字段作为第一层，否则就没有意义，如果要维护两个对应关系就丧失了配置json的简便性要求，所以还是等做缓存的时候再把字段做成一个大对象map，或者还是直接循环出来就好，本来也就几k而已。基础表不用太多资源支持。现在就是写出一个基本逻辑，生成数据的时候要用表名加上字段的方式入值
 {
   "XT0XITONG":{
     "Bm0XiTongs":{
@@ -93,7 +91,7 @@
         "LeiXing":"VARCHAR",
         "ChangDu":"50",
         "BianMa":"ZhiBiao",
-        "ZhuShi":"值表"
+        "ZhuShi":"值表，指定这个字段值在哪个表"
       },{
         "LeiXing":"VARCHAR",
         "ChangDu":"50",
@@ -116,7 +114,7 @@
       "CaoZuoBiao": "Bm3ZiDuanZhiDings",
       "SuoYin":     "ZhiDingBianMa",
       "ZhuJian":    "ZhuJian",
-      "ZhuShi":"字段表，记录所有的字段名",
+      "ZhuShi":"字段指定表，当字段的指定标记为1时，这里应该出现对应的可选值",
       "ZiDuans": [{
         "LeiXing":"BIGINT",
         "ChangDu":"20",
@@ -149,7 +147,7 @@
       "CaoZuoBiao": "Bm4YeWus",
       "SuoYin":     "BianMa",
       "ZhuJian":    "ZhuJian",
-      "ZhuShi":"字段表，记录所有的字段名",
+      "ZhuShi":"业务，记录这个系统所有的业务",
       "ZiDuans": [{
         "LeiXing":"BIGINT",
         "ChangDu":"20",
@@ -168,14 +166,19 @@
       },{
         "LeiXing":"VARCHAR",
         "ChangDu":"50",
+        "BianMa":"MiaoShu",
+        "ZhuShi":"系统编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
         "BianMa":"XiTongBianMa",
         "ZhuShi":"系统编码"
       }]
     },
-    "":{
+    "Bm5YeWuFangFaLius":{
       "CaoZuoKu":   "XT0XITONG",
-      "CaoZuoBiao": "Bm2ZiDuans",
-      "SuoYin":     "BianMa",
+      "CaoZuoBiao": "Bm5YeWuFangFaLius",
+      "SuoYin":     "LiuBianMa",
       "ZhuJian":    "ZhuJian",
       "ZhuShi":"字段表，记录所有的字段名",
       "ZiDuans": [{
@@ -183,101 +186,329 @@
         "ChangDu":"20",
         "BianMa":"ZhuJian",
         "ZhuShi":"主键"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"FangFaMing",
+        "ZhuShi":"方法名，就是每个方法的实际命名"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"MiaoShu",
+        "ZhuShi":"描述方法做了什么"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"YeWuBianMa",
+        "ZhuShi":"业务编码，只有业务需要这个方法流"
+      },{
+        "LeiXing":"INT",
+        "ChangDu":"50",
+        "BianMa":"ZongShu",
+        "ZhuShi":"流中总的方法个数"
+      },{
+        "LeiXing":"INT",
+        "ChangDu":"5",
+        "BianMa":"ShunXu",
+        "ZhuShi":"当前是第几个"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"LiuBianMa",
+        "ZhuShi":"流编码，为了唯一指定"
       }]
     },
-    "":{
+    "Bm6FangFas":{
       "CaoZuoKu":   "XT0XITONG",
-      "CaoZuoBiao": "Bm2ZiDuans",
-      "SuoYin":     "BianMa",
+      "CaoZuoBiao": "Bm6FangFas",
+      "SuoYin":     "FangFaMing",
       "ZhuJian":    "ZhuJian",
-      "ZhuShi":"字段表，记录所有的字段名",
+      "ZhuShi":"方法表，记录所有的方法名",
       "ZiDuans": [{
         "LeiXing":"BIGINT",
         "ChangDu":"20",
         "BianMa":"ZhuJian",
         "ZhuShi":"主键"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"FangFaMing",
+        "ZhuShi":"编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"MingCheng",
+        "ZhuShi":"确定的方法中文名"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"MiaoShu",
+        "ZhuShi":"描述，说明这个方法做了什么"
       }]
     },
-    "":{
+    "Bm7RuCans":{
       "CaoZuoKu":   "XT0XITONG",
-      "CaoZuoBiao": "Bm2ZiDuans",
+      "CaoZuoBiao": "Bm7RuCans",
       "SuoYin":     "BianMa",
       "ZhuJian":    "ZhuJian",
-      "ZhuShi":"字段表，记录所有的字段名",
+      "ZhuShi":"入参表，记录方法的入参每个参数的意义",
       "ZiDuans": [{
         "LeiXing":"BIGINT",
         "ChangDu":"20",
         "BianMa":"ZhuJian",
         "ZhuShi":"主键"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"BianMa",
+        "ZhuShi":"编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"MingCheng",
+        "ZhuShi":"编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"FuBianMa",
+        "ZhuShi":"父编码，如果存在某个字段是数组的话就可以用这个"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"MiaoShu",
+        "ZhuShi":"描述"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"FangFaMing",
+        "ZhuShi":"指定是哪个方法的"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"1",
+        "BianMa":"FeiZiDuan",
+        "ZhuShi":"非字段，如果为1则到非字段表中取做校验"
       }]
     },
-    "":{
+    "Bm8ChuCans":{
       "CaoZuoKu":   "XT0XITONG",
-      "CaoZuoBiao": "Bm2ZiDuans",
+      "CaoZuoBiao": "Bm8ChuCans",
       "SuoYin":     "BianMa",
       "ZhuJian":    "ZhuJian",
-      "ZhuShi":"字段表，记录所有的字段名",
+      "ZhuShi":"出参表，记录方法的返回参每个参数的意义",
       "ZiDuans": [{
         "LeiXing":"BIGINT",
         "ChangDu":"20",
         "BianMa":"ZhuJian",
         "ZhuShi":"主键"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"BianMa",
+        "ZhuShi":"编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"MingCheng",
+        "ZhuShi":"名称"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"FuBianMa",
+        "ZhuShi":"父编码，如果存在某个字段是数组的话就可以用这个"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"MiaoShu",
+        "ZhuShi":"描述"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"FangFaMing",
+        "ZhuShi":"指定是哪个方法的"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"LeiXing",
+        "ZhuShi":"指定类型方便接收者判断，主要是方便理解"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"1",
+        "BianMa":"BiXu",
+        "ZhuShi":"必须，如果为1，则说明这个值是返回值中必须存在的"
       }]
     },
-    "":{
+    "Bm9FangFaBuZhous":{
       "CaoZuoKu":   "XT0XITONG",
-      "CaoZuoBiao": "Bm2ZiDuans",
+      "CaoZuoBiao": "Bm9FangFaBuZhous",
       "SuoYin":     "BianMa",
       "ZhuJian":    "ZhuJian",
-      "ZhuShi":"字段表，记录所有的字段名",
+      "ZhuShi":"方法步骤表，记录一个方法的所有步骤，根据这些步骤能够完全的实现方法",
       "ZiDuans": [{
         "LeiXing":"BIGINT",
         "ChangDu":"20",
         "BianMa":"ZhuJian",
         "ZhuShi":"主键"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"BianMa",
+        "ZhuShi":"编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"MingCheng",
+        "ZhuShi":"名称"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"350",
+        "BianMa":"MiaoShu",
+        "ZhuShi":"描述"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"1500",
+        "BianMa":"GoDaiMa",
+        "ZhuShi":"go的代码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"FangFaMing",
+        "ZhuShi":"方法名"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"ZongShu",
+        "ZhuShi":"总数"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"ShunXu",
+        "ZhuShi":"顺序"
       }]
     },
-    "":{
+    "Bm10Cis":{
       "CaoZuoKu":   "XT0XITONG",
-      "CaoZuoBiao": "Bm2ZiDuans",
+      "CaoZuoBiao": "Bm10Cis",
       "SuoYin":     "BianMa",
       "ZhuJian":    "ZhuJian",
-      "ZhuShi":"字段表，记录所有的字段名",
+      "ZhuShi":"词表，所有的编码必须从这里选择组装，实际上的常量表",
       "ZiDuans": [{
         "LeiXing":"BIGINT",
         "ChangDu":"20",
         "BianMa":"ZhuJian",
         "ZhuShi":"主键"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"BianMa",
+        "ZhuShi":"编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"MingCheng",
+        "ZhuShi":"名称"
       }]
     },
-    "":{
+    "Bm11BianMas":{
       "CaoZuoKu":   "XT0XITONG",
-      "CaoZuoBiao": "Bm2ZiDuans",
+      "CaoZuoBiao": "Bm11BianMas",
       "SuoYin":     "BianMa",
       "ZhuJian":    "ZhuJian",
-      "ZhuShi":"字段表，记录所有的字段名",
+      "ZhuShi":"编码表，从词表组装之后供使用的表，业务中真实的常量或者命名",
       "ZiDuans": [{
         "LeiXing":"BIGINT",
         "ChangDu":"20",
         "BianMa":"ZhuJian",
         "ZhuShi":"主键"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"BianMa",
+        "ZhuShi":"编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"MingCheng",
+        "ZhuShi":"名称，方便搜索"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"MiaoShu",
+        "ZhuShi":"中文容易多音字所以必须描述清楚每个编码什么意思"
       }]
     },
-    "":{
+    "Bm12CiBianMas":{
       "CaoZuoKu":   "XT0XITONG",
-      "CaoZuoBiao": "Bm2ZiDuans",
+      "CaoZuoBiao": "Bm12CiBianMas",
       "SuoYin":     "BianMa",
       "ZhuJian":    "ZhuJian",
-      "ZhuShi":"字段表，记录所有的字段名",
+      "ZhuShi":"编码词的中间表，一个编码有多个词组成，一个词可以给多个编码用，所以是多对多",
       "ZiDuans": [{
         "LeiXing":"BIGINT",
         "ChangDu":"20",
         "BianMa":"ZhuJian",
         "ZhuShi":"主键"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"BianMa",
+        "ZhuShi":"编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"BianMaBianMa",
+        "ZhuShi":"编码的编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"CiBianMa",
+        "ZhuShi":"词编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"ShunXu",
+        "ZhuShi":"顺序"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"ZongShu",
+        "ZhuShi":"总数，一共多个词组成了一个编码，这些词有顺序和总数合一起就是一个编码"
+      }]
+    },
+    "Bm13FeiZiDuans":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm13FeiZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"非字段，当某个值在参数中存在但是不需要记录到业务字段中时就在这个表里记录，主要是方便参数校验，也就是说所有的方法都要进行参数校验，都是在这个表中拿规则的，遵循的原则是有就必须校验，没有就过，只做正则校验，不做值指定校验",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"BianMa",
+        "ZhuShi":"编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"MingCheng",
+        "ZhuShi":"名称"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"ZhengZe",
+        "ZhuShi":"正则"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"5",
+        "BianMa":"ChangDu",
+        "ZhuShi":"长度"
       }]
     }
   },
-  "xt1yonghu":{
+  "XT1YONGHU":{
     "BmxYongHus":{
       "CaoZuoKu":   "XT0XITONG",
       "CaoZuoBiao": "Bm2ZiDuans",
@@ -289,6 +520,11 @@
         "ChangDu":"20",
         "BianMa":"ZhuJian",
         "ZhuShi":"主键"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"BianMa",
+        "ZhuShi":"编码"
       }]
     },
     "BmyJueSes":{
@@ -302,10 +538,15 @@
         "ChangDu":"20",
         "BianMa":"ZhuJian",
         "ZhuShi":"主键"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"BianMa",
+        "ZhuShi":"编码"
       }]
     }
   },
-  "xt2huodong":{
+  "XT2HUODONG":{
     "BmxHuoDongs":{
       "CaoZuoKu":   "XT0XITONG",
       "CaoZuoBiao": "Bm2ZiDuans",
@@ -333,7 +574,7 @@
       }]
     }
   },
-  "xt3yanlun":{
+  "XT3YANLUN":{
     "BmxTuWens":{
       "CaoZuoKu":   "XT0XITONG",
       "CaoZuoBiao": "Bm2ZiDuans",
@@ -361,7 +602,7 @@
       }]
     }
   },
-  "xt4toupiao":{
+  "XT4TOUPIAO":{
     "BmxZhuTis":{
       "CaoZuoKu":   "XT0XITONG",
       "CaoZuoBiao": "Bm2ZiDuans",
@@ -389,7 +630,7 @@
       }]
     }
   },
-  "xt5choujiang":{
+  "XT5CHOUJIANG":{
     "BmxZhuTis":{
       "CaoZuoKu":   "XT0XITONG",
       "CaoZuoBiao": "Bm2ZiDuans",
@@ -417,7 +658,7 @@
       }]
     }
   },
-  "xt6wenjuan":{
+  "XT6WENJUAN":{
     "BmxTiMus":{
       "CaoZuoKu":   "XT0XITONG",
       "CaoZuoBiao": "Bm2ZiDuans",
@@ -445,7 +686,7 @@
       }]
     }
   },
-  "xt7shangcheng":{
+  "XT7SHANGCHENG":{
     "BmxShangJias":{
       "CaoZuoKu":   "XT0XITONG",
       "CaoZuoBiao": "Bm2ZiDuans",
@@ -473,7 +714,7 @@
       }]
     }
   },
-  "xt8bianlun":{
+  "XT8BIANLUN":{
     "BmxGuanDians":{
       "CaoZuoKu":   "XT0XITONG",
       "CaoZuoBiao": "Bm2ZiDuans",
