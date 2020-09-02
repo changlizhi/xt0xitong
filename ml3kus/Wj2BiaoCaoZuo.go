@@ -55,7 +55,7 @@ func ChuangJianBiao(canShu map[string]interface{}) map[string]interface{} {
 	caoZuoBiao := ml0gongjus.DuanYanZiFuChuan(canShu[ml2changliangs.CaoZuoBiao])
 	zhuJian := ml0gongjus.DuanYanZiFuChuan(canShu[ml2changliangs.ZhuJian])
 	suoYin := ml0gongjus.DuanYanZiFuChuan(canShu[ml2changliangs.SuoYin])
-	ziDuans := canShu[ml2changliangs.ZiDuans].([]map[string]interface{}) //把字段拿出来
+	ziDuans := canShu[ml2changliangs.ZiDuans].([]interface{}) //把字段拿出来
 
 	builder := strings.Builder{}
 
@@ -64,9 +64,10 @@ func ChuangJianBiao(canShu map[string]interface{}) map[string]interface{} {
 	builder.WriteString(ml2changliangs.FhDianHao)
 	builder.WriteString(caoZuoBiao)
 	builder.WriteString(" (")
-	for _, v := range ziDuans {
+	for _, interv := range ziDuans {
 		//`MingCheng` VARCHAR(50) NOT NULL DEFAULT 'hfx',
-		builder.WriteString(ml0gongjus.DuanYanZiFuChuan(v[ml2changliangs.ZiDuanMing]))
+		v:=interv.(map[string]interface{})
+    builder.WriteString(ml0gongjus.DuanYanZiFuChuan(v[ml2changliangs.BianMa]))
 		builder.WriteString(" ")
 		builder.WriteString(ml0gongjus.DuanYanZiFuChuan(v[ml2changliangs.LeiXing]))
 		builder.WriteString("(")
