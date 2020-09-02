@@ -1,60 +1,504 @@
 //这里就是基础系统的数据结构，初始化系统时必须添加。
-
+//字段里不需要挂上系统和表，因为除非把字段作为第一层，否则就没有意义，如果要维护两个对应关系就丧失了配置json的简便性要求，所以还是等做缓存的时候再把字段做成一个大对象map，或者还是直接循环出来就好，本来也就几k而已。基础表不用太多资源支持。现在就是写出一个基本逻辑，生成数据的时候要用表名加上字段的方式入值
 {
   "XT0XITONG":{
     "Bm0XiTongs":{
       "CaoZuoKu":   "XT0XITONG",
-      "CaoZuoBiao": "Bm1BiaoMings",
+      "CaoZuoBiao": "Bm0XiTongs",
       "SuoYin":     "BianMa",
       "ZhuJian":    "ZhuJian",
+      "ZhuShi":"系统表，记录所有系统",
       "ZiDuans": [{
         "LeiXing":"BIGINT",
         "ChangDu":"20",
-        "BianMa":"ZhuJian"
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
       },{
         "LeiXing":"VARCHAR",
         "ChangDu":"50",
-        "BianMa":"BianMa"
+        "BianMa":"BianMa",
+        "ZhuShi":"编码"
       },{
         "LeiXing":"VARCHAR",
         "ChangDu":"50",
-        "BianMa":"MingCheng"
+        "BianMa":"MingCheng",
+        "ZhuShi":"名称"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"350",
+        "BianMa":"MiaoShu",
+        "ZhuShi":"描述"
+      }]
+    },
+    "Bm1Biaos":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm1Biaos",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"表名表，记录所有的表",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"BianMa",
+        "ZhuShi":"编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"MingCheng",
+        "ZhuShi":"名称"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"XiTongBianMa",
+        "ZhuShi":"系统编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"ZhuJianBiao",
+        "ZhuShi":"主键表"
+      }]
+    },
+    "Bm2ZiDuans":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"BianMa",
+        "ZhuShi":"编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"MingCheng",
+        "ZhuShi":"名称"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"BiaoBianMa",
+        "ZhuShi":"表编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"ZhiBiao",
+        "ZhuShi":"值表"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"ZhengZe",
+        "ZhuShi":"正则"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"5",
+        "BianMa":"ChangDu",
+        "ZhuShi":"长度"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"1",
+        "BianMa":"XuZhiDing",
+        "ZhuShi":"需指定，如果为1则校验时可以不校验正则直接校验指定值"
+      }]
+    },
+    "Bm3ZiDuanZhiDings":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm3ZiDuanZhiDings",
+      "SuoYin":     "ZhiDingBianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"ZiDuanBianMa",
+        "ZhuShi":"字段编码，不用主键，因为实际上基础表都有唯一索引"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"KeNengZhi",
+        "ZhuShi":"可能值"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"350",
+        "BianMa":"MiaoShu",
+        "ZhuShi":"对可能值的描述"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"ZhiDingBianMa",
+        "ZhuShi":"指定编码，这个是为了取唯一值"
+      }]
+    },
+    "Bm4YeWus":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm4YeWus",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"BianMa",
+        "ZhuShi":"编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"MingCheng",
+        "ZhuShi":"名称"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"XiTongBianMa",
+        "ZhuShi":"系统编码"
+      }]
+    },
+    "":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
+    },
+    "":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
+    },
+    "":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
+    },
+    "":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
+    },
+    "":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
+    },
+    "":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
+    },
+    "":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
+    },
+    "":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
       }]
     }
   },
   "xt1yonghu":{
-    "Bm0XiTongs":{
-      
+    "BmxYongHus":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
+    },
+    "BmyJueSes":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
     }
   },
   "xt2huodong":{
-    "Bm0XiTongs":{
-      
+    "BmxHuoDongs":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
+    },
+    "BmyBaoMings":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
     }
   },
   "xt3yanlun":{
-    "Bm0XiTongs":{
-      
+    "BmxTuWens":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
+    },
+    "BmyHuiFus":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
     }
   },
   "xt4toupiao":{
-    "Bm0XiTongs":{
-      
+    "BmxZhuTis":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
+    },
+    "BmyXuanXiangs":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
     }
   },
   "xt5choujiang":{
-    "Bm0XiTongs":{
-      
+    "BmxZhuTis":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
+    },
+    "BmyJiangPins":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
     }
   },
   "xt6wenjuan":{
-    "Bm0XiTongs":{
-      
+    "BmxTiMus":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
+    },
+    "BmyDaAns":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
     }
   },
   "xt7shangcheng":{
-    "Bm0XiTongs":{
-      
+    "BmxShangJias":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
+    },
+    "BmyShangPins":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
+    }
+  },
+  "xt8bianlun":{
+    "BmxGuanDians":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
+    },
+    "BmyLunJus":{
+      "CaoZuoKu":   "XT0XITONG",
+      "CaoZuoBiao": "Bm2ZiDuans",
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"字段表，记录所有的字段名",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "ZhuShi":"主键"
+      }]
     }
   }
 }
