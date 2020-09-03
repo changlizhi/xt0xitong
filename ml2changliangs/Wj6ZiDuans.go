@@ -2,17 +2,17 @@ package ml2changliangs
 
 //数据库
 const (
-	TEST       = "TEST"
-	MYSQL      = "MYSQL"
-	XT0XITONG   = "XT0XITONG"
-	XT1YONGHU  = "XT1YONGHU"
-	XT2HUODONG = "XT2HUODONG"
-	XT3YANLUN  = "XT3YANLUN"
-  XT4TOUPIAO="XT4TOUPIAO"
-  XT5CHOUJIANG="XT5CHOUJIANG"
-  XT6WENJUAN="XT6WENJUAN"
-  XT7SHANGCHENG="XT7SHANGCHENG"
-  XT8BIANLUN="XT8BIANLUN"
+	TEST          = "TEST"
+	MYSQL         = "MYSQL"
+	XT0XITONG     = "XT0XITONG"
+	XT1YONGHU     = "XT1YONGHU"
+	XT2HUODONG    = "XT2HUODONG"
+	XT3YANLUN     = "XT3YANLUN"
+	XT4TOUPIAO    = "XT4TOUPIAO"
+	XT5CHOUJIANG  = "XT5CHOUJIANG"
+	XT6WENJUAN    = "XT6WENJUAN"
+	XT7SHANGCHENG = "XT7SHANGCHENG"
+	XT8BIANLUN    = "XT8BIANLUN"
 )
 
 //参数
@@ -48,12 +48,12 @@ const (
 
 //字段名
 const (
-LiuBianMa="LiuBianMa"
-GoDaiMa="GoDaiMa"
-XiTongBianMa="XiTongBianMa"
-BiaoBianMa="BiaoBianMa"
-YeWuBianMa="YeWuBianMa"
-SuoYin     = "SuoYin"
+	LiuBianMa        = "LiuBianMa"
+	GoDaiMa          = "GoDaiMa"
+	XiTongBianMa     = "XiTongBianMa"
+	BiaoBianMa       = "BiaoBianMa"
+	YeWuBianMa       = "YeWuBianMa"
+	SuoYin           = "SuoYin"
 	Zhi              = "Zhi"
 	XuJianKu         = "XuJianKu"
 	LianJie          = "LianJie"

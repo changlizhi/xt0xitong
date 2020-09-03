@@ -3,12 +3,12 @@ package ml3kus
 import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/json-iterator/go"
+	"io/ioutil"
 	"log"
 	"os"
 	"sync"
 	"xt0xitong/ml2changliangs"
-	"io/ioutil"
-  "github.com/json-iterator/go"
 )
 
 func init() {
@@ -22,10 +22,10 @@ var (
 
 func chuShiHuaChi() {
 	suoShiLi.Do(func() { //这里需要把已存在的都纳入进来，所以需要新建一个配置文件，这个配置文件用go写成
-    testDb := chuangJianChi(ml2changliangs.TEST)
-    chi[ml2changliangs.TEST] = testDb
+		testDb := chuangJianChi(ml2changliangs.TEST)
+		chi[ml2changliangs.TEST] = testDb
 		// 除了XT0XITONG之外所有的业务系统都不需要在启动时创建数据库，因为有系统表，在用户手动添加的时候会自行创建库和表,添加之后就是自动添加数据库的基础表。
-    ChuangJianJiChuBiao()
+		ChuangJianJiChuBiao()
 	})
 }
 
@@ -74,6 +74,7 @@ func TianJiaLianJieChi(shuJuKuMing string) {
 	lianJieChi := chuangJianChi(shuJuKuMing)
 	chi[shuJuKuMing] = lianJieChi
 }
+
 //这里就是基础系统的数据结构，初始化系统时必须添加。
 //字段里不需要挂上系统和表，因为除非把字段作为第一层，否则就没有意义，如果要维护两个对应关系就丧失了配置json的简便性要求，所以还是等做缓存的时候再把字段做成一个大对象map，或者还是直接循环出来就好，本来也就几k而已。基础表不用太多资源支持。现在就是写出一个基本逻辑，生成数据的时候要用表名加上字段的方式入值
 //重新思考一下这个设计，针对的就是一个个的字段，根本不用在系统的基础上做这种限制，因为所有的系统都只有两种表，主键表和值表。
@@ -91,29 +92,29 @@ func ChuangJianJiChuBiao() {
 	if err != nil {
 		log.Println("read to fd fail", err)
 	}
-  json := jsoniter.ConfigCompatibleWithStandardLibrary
-  data:=map[string]interface{}{}
-  json.Unmarshal(fd,&data)
+	json := jsoniter.ConfigCompatibleWithStandardLibrary
+	data := map[string]interface{}{}
+	json.Unmarshal(fd, &data)
 
-  for k,v:=range data{
-    if k == ml2changliangs.XT0XITONG{//其他库等用户自行添加
-      TianJiaLianJieChi(k)
-      i:=ml2changliangs.Sz0
-      for biaok,biaov:=range v.(map[string]interface{}){
-        vduanyan := biaov.(map[string]interface{})
-        
-        canShu:=map[string]interface{}{
-          ml2changliangs.CaoZuoKu:k,
-          ml2changliangs.CaoZuoBiao:biaok,
-          ml2changliangs.ZhuJian:vduanyan[ml2changliangs.ZhuJian],
-          ml2changliangs.SuoYin:vduanyan[ml2changliangs.SuoYin],
-          ml2changliangs.ZiDuans:vduanyan[ml2changliangs.ZiDuans],
-        }
-        log.Println("i---", i,vduanyan[ml2changliangs.ZiDuans].([]interface{}))
-        ChuangJianBiao(canShu)
-        i++
-      }
-    }
-    
-  }
+	for k, v := range data {
+		if k == ml2changliangs.XT0XITONG { //其他库等用户自行添加
+			TianJiaLianJieChi(k)
+			i := ml2changliangs.Sz0
+			for biaok, biaov := range v.(map[string]interface{}) {
+				vduanyan := biaov.(map[string]interface{})
+
+				canShu := map[string]interface{}{
+					ml2changliangs.CaoZuoKu:   k,
+					ml2changliangs.CaoZuoBiao: biaok,
+					ml2changliangs.ZhuJian:    vduanyan[ml2changliangs.ZhuJian],
+					ml2changliangs.SuoYin:     vduanyan[ml2changliangs.SuoYin],
+					ml2changliangs.ZiDuans:    vduanyan[ml2changliangs.ZiDuans],
+				}
+				log.Println("i---", i, vduanyan[ml2changliangs.ZiDuans].([]interface{}))
+				ChuangJianBiao(canShu)
+				i++
+			}
+		}
+
+	}
 }

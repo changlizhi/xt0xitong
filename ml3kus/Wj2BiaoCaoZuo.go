@@ -66,8 +66,8 @@ func ChuangJianBiao(canShu map[string]interface{}) map[string]interface{} {
 	builder.WriteString(" (")
 	for _, interv := range ziDuans {
 		//`MingCheng` VARCHAR(50) NOT NULL DEFAULT 'hfx',
-		v:=interv.(map[string]interface{})
-    builder.WriteString(ml0gongjus.DuanYanZiFuChuan(v[ml2changliangs.BianMa]))
+		v := interv.(map[string]interface{})
+		builder.WriteString(ml0gongjus.DuanYanZiFuChuan(v[ml2changliangs.BianMa]))
 		builder.WriteString(" ")
 		builder.WriteString(ml0gongjus.DuanYanZiFuChuan(v[ml2changliangs.LeiXing]))
 		builder.WriteString("(")
