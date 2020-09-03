@@ -84,17 +84,20 @@ func ChuangJianJiChuBiao() {
 	//读取json文件，拿到XT0XITONG的数据
 	f, err := os.Open("../jichu.json")
 	if err != nil {
-		log.Println("read file fail", err)
+		log.Println("jichu.json路径错误", err)
 	}
 	defer f.Close()
 
 	fd, err := ioutil.ReadAll(f)
 	if err != nil {
-		log.Println("read to fd fail", err)
+		log.Println("jichu.json读取错误", err)
 	}
 	json := jsoniter.ConfigCompatibleWithStandardLibrary
 	data := map[string]interface{}{}
-	json.Unmarshal(fd, &data)
+	err = json.Unmarshal(fd, &data)
+	if err != nil {
+		log.Println("jichu.json解析错误", err)
+	}
 
 	for k, v := range data {
 		if k == ml2changliangs.XT0XITONG { //其他库等用户自行添加

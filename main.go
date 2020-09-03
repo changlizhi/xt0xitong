@@ -7,19 +7,14 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"github.com/json-iterator/go"
 )
 
-func YongHuHandler(w http.ResponseWriter, r *http.Request) {
-	// 	datab, _ := ioutil.ReadAll(r.Body)
-	// log.Println(r.Form["arr"])
-	// var defaultMaxMemory int64
-	//  defaultMaxMemory= 32 << 20 // 32 MB
-	//  r.ParseMultipartForm(defaultMaxMemory)
-	// log.Println("multiPart---",r.MultipartForm)
-	// log.Println("multiPart---",r.Form)
+func FileHandler(w http.ResponseWriter, r *http.Request) {
 	reader, err := r.MultipartReader()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Println("main.go,YongHuHandler:err",err)
+    http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -55,9 +50,40 @@ func YongHuHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+func YongHuHandler(w http.ResponseWriter, r *http.Request) {
+  w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问所有域
+  w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
+  w.Header().Set("content-type", "application/json")             //返回数据格式是json
+	if r.Method == "OPTIONS"{
+    w.Write([]byte("200"))
+    return
+  }
+  json := jsoniter.ConfigCompatibleWithStandardLibrary
+  datab, err := ioutil.ReadAll(r.Body)
+  if err != nil{
+    log.Println("datab读取错误",err,r)
+  }
+  
+  dataObj := map[string]interface{}{}
+  err = json.Unmarshal(datab,&dataObj)
+  if err != nil{
+    log.Println("datab解析错误",err,r.Method)
+  }
+  log.Println("dataObj---",dataObj)
+  str,err := json.Marshal(map[string]interface{}{
+    "Obj":true,
+  })
+  if err != nil{
+    log.Println("返回数据组装json错误",err)
+  }
+  w.Write([]byte(str))
+  return
+}
+
 func StartAPI() {
-	http.HandleFunc("/hfxxt0xitong", YongHuHandler)
-	err := http.ListenAndServeTLS(":8888", "server.crt", "server.key", nil)
+	http.HandleFunc("/hfxyonghu", YongHuHandler)
+	err := http.ListenAndServe(":8888",nil)
 	if err != nil {
 		log.Fatal("服务端报错：", err.Error())
 	}
