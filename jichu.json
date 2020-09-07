@@ -1,35 +1,5 @@
 {
   "XT0XITONG":{
-    "Bm0XiTongs":{
-      "SuoYin":     "BianMa",
-      "ZhuJian":    "ZhuJian",
-      "ZhuShi":"系统表，记录所有系统",
-      "ZiDuans": [{
-        "LeiXing":"BIGINT",
-        "ChangDu":"20",
-        "BianMa":"ZhuJian",
-        "MoRenZhi":"0",
-        "ZhuShi":"主键"
-      },{
-        "LeiXing":"VARCHAR",
-        "ChangDu":"50",
-        "BianMa":"BianMa",
-        "MoRenZhi":"'hfx'",
-        "ZhuShi":"编码"
-      },{
-        "LeiXing":"VARCHAR",
-        "ChangDu":"50",
-        "BianMa":"MingCheng",
-        "MoRenZhi":"'hfx'",
-        "ZhuShi":"名称"
-      },{
-        "LeiXing":"VARCHAR",
-        "ChangDu":"350",
-        "BianMa":"MiaoShu",
-        "MoRenZhi":"'hfx'",
-        "ZhuShi":"描述"
-      }]
-    },
     "Bm1Biaos":{
       "SuoYin":     "BianMa",
       "ZhuJian":    "ZhuJian",
@@ -52,12 +22,6 @@
         "BianMa":"MingCheng",
         "MoRenZhi":"'hfx'",
         "ZhuShi":"名称"
-      },{
-        "LeiXing":"VARCHAR",
-        "ChangDu":"50",
-        "BianMa":"XiTongBianMa",
-        "MoRenZhi":"'hfx'",
-        "ZhuShi":"系统编码"
       },{
         "LeiXing":"VARCHAR",
         "ChangDu":"50",
@@ -183,13 +147,7 @@
         "ChangDu":"50",
         "BianMa":"MiaoShu",
         "MoRenZhi":"'hfx'",
-        "ZhuShi":"系统编码"
-      },{
-        "LeiXing":"VARCHAR",
-        "ChangDu":"50",
-        "BianMa":"XiTongBianMa",
-        "MoRenZhi":"'hfx'",
-        "ZhuShi":"系统编码"
+        "ZhuShi":"描述"
       }]
     },
     "Bm5YeWuFangFaLius":{
@@ -556,6 +514,36 @@
         "BianMa":"ChangDu",
         "MoRenZhi":"'hfx'",
         "ZhuShi":"长度"
+      }]
+    },
+    "Bm14RiZhis":{
+      "SuoYin":     "BianMa",
+      "ZhuJian":    "ZhuJian",
+      "ZhuShi":"日志表，索引字段的值跟主键字段的值相同，为了保持索引的存在，实际上只是一个结构保持的效果",
+      "ZiDuans": [{
+        "LeiXing":"BIGINT",
+        "ChangDu":"20",
+        "BianMa":"ZhuJian",
+        "MoRenZhi":"0",
+        "ZhuShi":"主键"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"BianMa",
+        "MoRenZhi":"'hfx'",
+        "ZhuShi":"编码"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"50",
+        "BianMa":"ShiJian",
+        "MoRenZhi":"'hfx'",
+        "ZhuShi":"时间"
+      },{
+        "LeiXing":"VARCHAR",
+        "ChangDu":"4000",
+        "BianMa":"CanShuJson",
+        "MoRenZhi":"'hfx'",
+        "ZhuShi":"参数Json"
       }]
     }
   },

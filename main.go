@@ -10,12 +10,18 @@ import (
 	"github.com/json-iterator/go"
   "xt0xitong/ml9fenfas"
 )
+func canShuTiShi(canShu string)[]byte{
+  json := jsoniter.ConfigCompatibleWithStandardLibrary
+  ret,_ := json.Marshal(map[string]interface{}{
+    "Ceng1":canShu,
+  })
+  return ret
+}
 func YongHuHandler(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问所有域
   w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
   w.Header().Set("content-type", "application/json")             //返回数据格式是json
 	if r.Method == "OPTIONS"{
-    w.Write([]byte("200"))
     log.Println("OPTIONS嗅探了")
     return
   }
@@ -23,6 +29,8 @@ func YongHuHandler(w http.ResponseWriter, r *http.Request) {
   datab, err := ioutil.ReadAll(r.Body)
   if err != nil{
     log.Println("datab读取错误",err,r)
+    w.Write(canShuTiShi("数据读取错误，请重试！"))
+    return
   }
   
   dataObj := map[string]interface{}{}
@@ -30,22 +38,15 @@ func YongHuHandler(w http.ResponseWriter, r *http.Request) {
   err = json.Unmarshal(datab,&dataObj)
   if err != nil{
     log.Println("datab解析错误",err)
-    str,_ := json.Marshal(map[string]interface{}{
-      "Ceng1":"参数错误，请注意约定好的参数格式！",
-    })
-
-    w.Write(str)
+    w.Write(canShuTiShi("参数错误，请注意约定好的参数格式！"))
     return
   }
   ret := ml9fenfas.QuanJuFenFa(dataObj)
-  log.Println("ret---",ret)
+  log.Println("分发后返回的数据直接转成json发给前端ret---",ret)
   retByte,err := json.Marshal(ret)
   if err != nil{
     log.Println("返回数据组装json错误，这个错误不应该发生",err)
-    str,_ := json.Marshal(map[string]interface{}{
-      "Ceng1":"内部错误，请稍后重试！",
-    })
-    w.Write(str)
+    w.Write(canShuTiShi("内部错误，请稍后重试！"))
     return
   }
   w.Write(retByte)
